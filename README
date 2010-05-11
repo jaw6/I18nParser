@@ -1,0 +1,44 @@
+I18nParser
+==========
+
+Ruby's date parsing methods will return "invalid date" for some international date formats. (It especially doesn't like '%d/%m/%Y'.)
+
+I18n can turn a date into a localized string, but doesn't provide anything for the
+round-trip - taking a localized string as input and parsing that into a date. 
+
+This provides a method (parse_i18n) that uses the I18n date format to turn a string into a date.
+
+
+Example
+=======
+
+---
+# config/locale/en.yml
+  en:
+    date:
+      formats:
+        default: "%Y-%m-%d"
+# config/locale/fr.yml
+  fr:
+    date:
+      formats:
+        default: "%d/%m/%Y"
+---
+
+> I18n.locale = :en
+> Date.parse_i18n '2010-05-31'
+# => Mon, 31 May 2010
+
+> I18n.locale = :fr
+> Date.parse_i18n '25/07/2010'
+# => Sun, 25 Jul 2010
+
+
+TODO
+=======
+
+* Add time conversion
+* Add conversions for string->float for languages that invert the comma and dot
+
+
+Copyright (c) 2010 Joshua Wehner, released under the MIT license
